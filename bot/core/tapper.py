@@ -490,6 +490,9 @@ class Tapper:
             logger.error(f"<light-yellow>{self.session_name}</light-yellow> | Proxy: {proxy} | Error: {error}")
 
     async def run(self, proxy: str | None) -> None:
+        random_delay = random.randint(0, 15)
+        logger.info(f"{self.tg_client.name} | Bot will start in <light-red>{random_delay}s</light-red>")
+        await asyncio.sleep(delay=random_delay)
         access_token = None
         refresh_token = None
         login_need = True
@@ -500,9 +503,6 @@ class Tapper:
 
         if proxy:
             await self.check_proxy(http_client=http_client, proxy=proxy)
-
-        #print(init_data)
-
         while True:
             try:
                 if login_need:
@@ -510,7 +510,23 @@ class Tapper:
                         del http_client.headers["Authorization"]
 
                     init_data = await self.get_tg_web_data(proxy=proxy)
-
+                    #加载css或者js
+                    #https://telegram.blum.codes/
+                    #https://telegram.blum.codes/_dist/daily-reward.CW9CzfBk.css
+                    #https://telegram.blum.codes/_dist/DX8iadnn.js
+                    #https://telegram.blum.codes/_dist/b6Tw2QsM.js
+                    init_url = ['https://telegram.blum.codes/',
+                                'https://telegram.blum.codes/_dist/daily-reward.CW9CzfBk.css',
+                                'https://telegram.blum.codes/_dist/DX8iadnn.js',
+                                'https://telegram.blum.codes/_dist/b6Tw2QsM.js',
+                                'https://telegram.blum.codes/_dist/entry.DkH2eR2U.css'
+                                ]
+                    try:
+                        for u in init_url:
+                            await asyncio.sleep(random.uniform(1, 2))
+                            await http_client.get(u, ssl=False)
+                    except Exception as e:
+                        logger.error(f"加载css和js失败")
                     access_token, refresh_token = await self.login(http_client=http_client, initdata=init_data)
 
                     http_client.headers["Authorization"] = f"Bearer {access_token}"
