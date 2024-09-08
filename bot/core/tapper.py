@@ -511,11 +511,11 @@ class Tapper:
 
                     init_data = await self.get_tg_web_data(proxy=proxy)
                     #加载css或者js
-                    #https://telegram.blum.codes/
-                    #https://telegram.blum.codes/_dist/daily-reward.CW9CzfBk.css
-                    #https://telegram.blum.codes/_dist/DX8iadnn.js
-                    #https://telegram.blum.codes/_dist/b6Tw2QsM.js
                     init_url = ['https://telegram.blum.codes/',
+                                'http;//telegram.blum.codes/_dist/C7I6i8b3.js',
+                                'http;//telegram.blum.codes/_dist/tganalytics.Hsn8KsCe.js',
+                                'http;//telegram.blum.codes/_dist/loader.CHvAPMmo.webm',
+                                'http;//telegram.blum.codes/_dist/loader.CuI5ghga.mp4',
                                 'https://telegram.blum.codes/_dist/daily-reward.CW9CzfBk.css',
                                 'https://telegram.blum.codes/_dist/DX8iadnn.js',
                                 'https://telegram.blum.codes/_dist/b6Tw2QsM.js',
@@ -527,6 +527,7 @@ class Tapper:
                             await http_client.get(u, ssl=False)
                     except Exception as e:
                         logger.error(f"加载css和js失败")
+                    logger.error(f"登录{self.session_name}加载css和js完成!")
                     access_token, refresh_token = await self.login(http_client=http_client, initdata=init_data)
 
                     http_client.headers["Authorization"] = f"Bearer {access_token}"
