@@ -527,7 +527,7 @@ class Tapper:
                             await http_client.get(u, ssl=False)
                     except Exception as e:
                         logger.error(f"加载css和js失败")
-                    logger.error(f"登录{self.session_name}加载css和js完成!")
+                    logger.error(f"登录之前{self.session_name}加载css和js完成!")
                     access_token, refresh_token = await self.login(http_client=http_client, initdata=init_data)
 
                     http_client.headers["Authorization"] = f"Bearer {access_token}"
